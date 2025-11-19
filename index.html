@@ -1,222 +1,445 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ORIGIN™ — Identity Extraction System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIGIN™ | The Identity Extraction System</title>
+    <meta name="description" content="The Semantic Fingerprint of the Sovereign Soul. The Old Script is Dead. Write the New One.">
+    
+    <!-- Fonts: Cinzel for Mythic, Inter for Clean, Space Mono for Tech -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#050505',
+                        marble: '#121212',
+                        gold: '#D4AF37',
+                        'gold-light': '#F4D06F',
+                        'gold-dim': '#8A7120',
+                        ash: '#888888'
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'marble-texture': "url('https://www.transparenttextures.com/patterns/black-felt.png')", // Subtle noise
+                        'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #F4D06F 50%, #8A7120 100%)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        /* --- RESET --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Custom Aesthetic Overrides */
         body {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #0c0c0c;
-            color: #f3f3f3;
-            line-height: 1.6;
+            background-color: #050505;
+            color: #e5e5e5;
             overflow-x: hidden;
         }
 
-        a { text-decoration: none; color: inherit; }
-
-        /* --- GLOBAL WRAPPER --- */
-        .section {
+        /* The Marble Noise Overlay */
+        .bg-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 120px 24px;
-            max-width: 1200px;
-            margin: 0 auto;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 50;
         }
 
-        .hero {
-            padding: 160px 24px;
-            text-align: center;
+        /* Gold Text Gradient */
+        .text-gradient-gold {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
         }
 
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -0.03em;
-        }
-
-        .hero p {
-            font-size: 1.35rem;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            opacity: 0.85;
-        }
-
-        .button-primary {
-            display: inline-block;
-            padding: 16px 36px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border: 1px solid #ffffff33;
-            border-radius: 8px;
-            background: linear-gradient(to right, #ffffff10, #ffffff05);
-            backdrop-filter: blur(8px);
-            transition: 0.25s ease;
-        }
-
-        .button-primary:hover {
-            background: #ffffff18;
-        }
-
-        /* --- DIVIDERS --- */
-        .divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, #ffffff00, #ffffff22, #ffffff00);
-            margin: 80px 0;
-        }
-
-        /* --- THREE COLUMN FEATURES --- */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 48px;
-            margin-top: 40px;
-        }
-
-        .feature {
-            padding: 28px;
-            border: 1px solid #ffffff12;
-            background: #ffffff03;
-            border-radius: 14px;
-        }
-
-        .feature h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            letter-spacing: -0.01em;
-        }
-
-        .feature p {
-            opacity: 0.8;
-        }
-
-        /* --- HOW IT WORKS --- */
-        .steps {
-            display: grid;
-            gap: 50px;
-            margin-top: 40px;
-        }
-
-        .step {
-            padding: 30px;
-            border-left: 2px solid #ffffff22;
-        }
-
-        .step h4 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-        }
-
-        .step p {
-            opacity: 0.75;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 80px 24px;
-            text-align: center;
-            font-size: 0.9rem;
-            opacity: 0.6;
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 2.8rem;
+        @keyframes shine {
+            to {
+                background-position: 200% center;
             }
         }
+
+        /* Thin Circuitry Lines */
+        .circuit-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            height: 1px;
+            width: 100%;
+        }
+        
+        .circuit-line-vertical {
+            position: absolute;
+            background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            width: 1px;
+            height: 100%;
+        }
+
+        /* Selection Color */
+        ::selection {
+            background: #D4AF37;
+            color: #000;
+        }
+
+        /* Scroll Reveal Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom Button Glow */
+        .btn-glow {
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            border-color: #F4D06F;
+        }
+
+        /* H+ Logo Animation */
+        .logo-spin:hover {
+            transform: rotate(180deg);
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
-
 </head>
+<body class="font-sans antialiased selection:bg-gold selection:text-void">
 
-<body>
+    <!-- Noise Overlay for Texture -->
+    <div class="bg-noise"></div>
 
-    <!-- HERO -->
-    <section class="hero">
-        <h1>ORIGIN™</h1>
-        <p>The Identity Extraction System that reveals your Founder Fingerprint and gives you the most aligned direction for your online business.</p>
-        <a href="#cta" class="button-primary">Get Your Origin Report</a>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- WHAT IS ORIGIN -->
-    <section class="section">
-        <h2 style="font-size:2.4rem; margin-bottom:20px;">What is ORIGIN™?</h2>
-        <p style="max-width:780px; opacity:0.85;">
-            ORIGIN™ is a guided identity extraction and narrative decoding system. It uses the Fingerprint Protocol™ 
-            to analyze your life patterns, strengths, obsessions, and psychological architecture — and then transforms 
-            that into a clear business direction, niche, and long-term entrepreneurial identity.
-        </p>
-
-        <div class="features">
-            <div class="feature">
-                <h3>Your Founder Fingerprint™</h3>
-                <p>A custom identity map created from your patterns, skills, story, and deep orientation.</p>
+    <!-- Navigation / Header -->
+    <nav class="fixed w-full z-40 top-0 border-b border-white/5 bg-void/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="group flex items-center gap-3">
+                <div class="w-8 h-8 border border-gold/40 rounded-full flex items-center justify-center logo-spin transition-all duration-500">
+                    <span class="font-serif text-gold font-bold">H+</span>
+                </div>
+                <span class="font-mono text-xs tracking-[0.2em] text-ash group-hover:text-gold transition-colors">THEHUMAN.PLUS</span>
+            </a>
+            
+            <!-- Terminal Status -->
+            <div class="hidden md:flex items-center gap-4 font-mono text-[10px] tracking-widest text-gold/60">
+                <span class="animate-pulse">● SYSTEM: ONLINE</span>
+                <span>//</span>
+                <span>MODULE: ORIGIN_001</span>
             </div>
 
-            <div class="feature">
-                <h3>Business Direction Blueprint</h3>
-                <p>Based on your identity, we match you with the niche, model, and product path you’re uniquely built to win at.</p>
+            <!-- CTA -->
+            <a href="#initiate" class="hidden sm:block px-6 py-2 border border-white/10 text-xs font-mono tracking-widest hover:border-gold/50 hover:text-gold transition-all uppercase">
+                Login
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+        
+        <!-- Background Elements -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 rounded-full blur-[120px] opacity-20"></div>
+            <!-- Grid Lines -->
+            <div class="absolute top-0 left-1/4 w-px h-full bg-white/[0.02]"></div>
+            <div class="absolute top-0 right-1/4 w-px h-full bg-white/[0.02]"></div>
+            <div class="absolute top-1/3 w-full h-px bg-white/[0.02]"></div>
+            <div class="absolute bottom-1/3 w-full h-px bg-white/[0.02]"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+            <!-- Terminal Breadcrumb -->
+            <div class="mb-8 font-mono text-gold/80 text-xs tracking-[0.3em] uppercase animate-float">
+                &gt; Initiating Protocol... origin.thehuman.plus
             </div>
 
-            <div class="feature">
-                <h3>30-Day Action Roadmap</h3>
-                <p>Your first steps clearly laid out so you can move immediately with confidence and clarity.</p>
+            <!-- Main Title -->
+            <h1 class="font-serif text-6xl md:text-9xl font-medium tracking-tight text-white mb-6 leading-none">
+                ORIGIN<span class="text-gold text-4xl md:text-6xl align-top">™</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="font-mono text-sm md:text-base text-gold tracking-[0.2em] uppercase mb-12 opacity-80">
+                The Semantic Fingerprint of the Sovereign Soul
+            </p>
+
+            <!-- Hook -->
+            <p class="font-sans font-light text-ash text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-16">
+                You are operating on inherited code. The industrial script was designed to make you a cog, not a creator. <span class="text-white">The old script is dead. Write the new one.</span>
+            </p>
+
+            <!-- Primary CTA -->
+            <div class="flex flex-col items-center gap-4">
+                <a href="#pricing" class="btn-glow group relative px-10 py-4 bg-void border border-gold text-gold font-mono text-sm tracking-[0.2em] uppercase hover:bg-gold hover:text-void transition-all duration-300">
+                    <span class="relative z-10">[ Initiate Extraction ]</span>
+                    <div class="absolute inset-0 bg-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
+                </a>
+                <span class="text-[10px] font-mono text-ash/50 tracking-widest">LIMITED COHORT ACCESS // BETA_V1</span>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <div class="w-px h-16 bg-gradient-to-b from-gold/0 via-gold/50 to-gold/0"></div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: THE PROBLEM (Ontological Shock) -->
+    <section class="py-32 relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="font-serif text-4xl md:text-5xl text-white mb-8 leading-tight">
+                        You don't have a <br>
+                        <span class="text-ash italic">business</span> problem.
+                    </h2>
+                    <h2 class="font-serif text-4xl md:text-5xl text-gradient-gold mb-8 leading-tight">
+                        You have an <br>
+                        Ontology problem.
+                    </h2>
+                </div>
+                <div class="reveal space-y-6 font-light text-ash text-lg leading-relaxed">
+                    <p>
+                        Most founders fail because they are running someone else's software on their own hardware. They build what they "should" build, not what they <em class="text-white not-italic">must</em> build.
+                    </p>
+                    <p>
+                        In the age of AI, competence is free. Authentic resonance is the only premium asset left. 
+                    </p>
+                    <p>
+                        If you cannot articulate your soul's shape in latent space, you will be drowned out by the noise.
+                    </p>
+                    <div class="pt-8">
+                        <div class="inline-block border-l-2 border-gold pl-6 py-2">
+                            <p class="font-mono text-xs text-gold tracking-widest mb-2">THE DIAGNOSIS</p>
+                            <p class="text-white font-serif text-xl">Misalignment is the silent killer of potential.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="divider"></div>
+    <!-- SECTION 2: THE SOLUTION (The Modules) -->
+    <section class="py-32 bg-marble relative">
+        <!-- Decoration -->
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent"></div>
 
-    <!-- HOW IT WORKS -->
-    <section class="section">
-        <h2 style="font-size:2.4rem; margin-bottom:20px;">How ORIGIN™ Works</h2>
-
-        <div class="steps">
-            <div class="step">
-                <h4>Step 1 — Identity Extraction Interview</h4>
-                <p>You answer a curated set of high-signal questions designed to reveal your hidden patterns and inner architecture.</p>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-24 reveal">
+                <span class="font-mono text-gold text-xs tracking-[0.3em] uppercase">The Architecture</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-white mt-4">The 3 Stages of Origin</h2>
             </div>
 
-            <div class="step">
-                <h4>Step 2 — Fingerprint Protocol™ Analysis</h4>
-                <p>We map your narrative, values, psychology, strengths, and creative orientation into a single unified fingerprint.</p>
-            </div>
+            <div class="grid md:grid-cols-3 gap-8 relative">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-12 left-0 w-full h-px bg-white/10 z-0"></div>
 
-            <div class="step">
-                <h4>Step 3 — Your Origin Report</h4>
-                <p>Your Founder Fingerprint™, niche, offer direction, and execution roadmap delivered in a premium digital format.</p>
+                <!-- Module 1 -->
+                <div class="reveal bg-void border border-white/5 p-8 relative group hover:border-gold/30 transition-all duration-500">
+                    <div class="w-24 h-24 bg-void border border-white/10 rounded-full flex items-center justify-center mb-8 relative z-10 mx-auto group-hover:border-gold/50 transition-colors">
+                        <i data-lucide="fingerprint" class="w-8 h-8 text-gold"></i>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-serif text-2xl text-white mb-2">The Anamnesis</h3>
+                        <p class="font-mono text-xs text-gold/60 mb-4 tracking-widest">PHASE_01 // EXTRACTION</p>
+                        <p class="text-ash font-light text-sm leading-relaxed">
+                            A 90-minute deep-dive interrogation of your history, trauma, and triumphs. We bypass the ego to isolate your signal from the noise.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="reveal bg-void border border-white/5 p-8 relative group hover:border-gold/30 transition-all duration-500 delay-100">
+                    <div class="w-24 h-24 bg-void border border-white/10 rounded-full flex items-center justify-center mb-8 relative z-10 mx-auto group-hover:border-gold/50 transition-colors">
+                        <i data-lucide="book" class="w-8 h-8 text-gold"></i>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-serif text-2xl text-white mb-2">The Codex</h3>
+                        <p class="font-mono text-xs text-gold/60 mb-4 tracking-widest">PHASE_02 // ARTIFACT</p>
+                        <p class="text-ash font-light text-sm leading-relaxed">
+                            We generate your Founder's Codex—a proprietary digital identity map containing your Lexicon, your Stance, and your Mythic Arc.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="reveal bg-void border border-white/5 p-8 relative group hover:border-gold/30 transition-all duration-500 delay-200">
+                    <div class="w-24 h-24 bg-void border border-white/10 rounded-full flex items-center justify-center mb-8 relative z-10 mx-auto group-hover:border-gold/50 transition-colors">
+                        <i data-lucide="compass" class="w-8 h-8 text-gold"></i>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-serif text-2xl text-white mb-2">The Vector</h3>
+                        <p class="font-mono text-xs text-gold/60 mb-4 tracking-widest">PHASE_03 // STRATEGY</p>
+                        <p class="text-ash font-light text-sm leading-relaxed">
+                            The niche, offer, and business model that aligns perfectly with your psychographics. No more guessing. Pure strategic alignment.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="divider"></div>
+    <!-- SECTION 3: THE ARTIFACT (Visual Vibe) -->
+    <section class="py-32 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <div class="reveal mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl text-white mb-6">
+                    "To build your future, you must return to your Origin."
+                </h2>
+                <p class="font-mono text-gold text-xs tracking-widest">
+                    // DECODING YOUR SEMANTIC FINGERPRINT
+                </p>
+            </div>
 
-    <!-- CTA -->
-    <section class="section" id="cta" style="text-align:center;">
-        <h2 style="font-size:2.4rem; margin-bottom:20px;">Start Your Origin</h2>
-        <p style="max-width:700px; margin:0 auto 40px; opacity:0.85;">
-            Your Origin Report is the clearest starting point for any creator or entrepreneur who wants 
-            to build an aligned, sustainable, and meaningful online empire.
-        </p>
-
-        <a href="#" class="button-primary">Get Your Origin Report</a>
+            <!-- Abstract UI Representation -->
+            <div class="reveal bg-void border border-gold/20 p-1 relative mx-auto max-w-2xl shadow-2xl shadow-gold/5">
+                <div class="bg-marble p-8 md:p-12 border border-white/5 relative overflow-hidden">
+                    <!-- Background Grid -->
+                    <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 20px 20px;"></div>
+                    
+                    <div class="relative z-10 flex flex-col items-start text-left space-y-4 font-mono text-xs md:text-sm">
+                        <div class="flex items-center gap-2 text-gold/50 mb-4">
+                            <div class="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
+                            <span>ANALYZING LATENT SPACE...</span>
+                        </div>
+                        <div class="space-y-1 w-full">
+                            <div class="flex justify-between text-ash"><span>> CORE_ARCHETYPE:</span> <span class="text-white">MYTHIC_CARTOGRAPHER</span></div>
+                            <div class="w-full h-px bg-white/10"></div>
+                        </div>
+                        <div class="space-y-1 w-full">
+                            <div class="flex justify-between text-ash"><span>> SIGNAL_STRENGTH:</span> <span class="text-white">98.4%</span></div>
+                            <div class="w-full h-px bg-white/10"></div>
+                        </div>
+                        <div class="space-y-1 w-full">
+                            <div class="flex justify-between text-ash"><span>> PRIMARY_DRIVER:</span> <span class="text-white">SOVEREIGNTY</span></div>
+                            <div class="w-full h-px bg-white/10"></div>
+                        </div>
+                        <div class="mt-8 p-4 border border-gold/30 bg-gold/5 w-full">
+                            <p class="text-gold text-center tracking-widest">CODEX GENERATED SUCCESSFULLY</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Corners -->
+                <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-gold"></div>
+                <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-gold"></div>
+                <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-gold"></div>
+                <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-gold"></div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        ORIGIN™ by Chase Premone — All Rights Reserved
+    <!-- SECTION 4: PRICING & CTA -->
+    <section id="pricing" class="py-32 border-t border-white/5 relative">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <div class="reveal mb-12">
+                <i data-lucide="triangle" class="w-8 h-8 text-gold mx-auto mb-6 rotate-180"></i>
+                <h2 class="font-serif text-5xl text-white mb-4">Begin The Extraction</h2>
+                <p class="text-ash font-light">Limited availability. High-intensity protocol.</p>
+            </div>
+
+            <div class="reveal bg-void border border-gold/30 p-8 md:p-12 relative overflow-hidden group hover:border-gold transition-colors duration-500">
+                <div class="absolute top-0 right-0 bg-gold text-void text-[10px] font-bold px-3 py-1 font-mono">
+                    BETA COHORT OPEN
+                </div>
+
+                <div class="flex flex-col items-center space-y-8">
+                    <div class="text-center">
+                        <p class="font-serif text-xl text-white mb-2">ORIGIN™: The Complete System</p>
+                        <ul class="font-light text-ash text-sm space-y-2 mt-4">
+                            <li>+ The 90-Minute Anamnesis Interview</li>
+                            <li>+ The Founder's Codex (Digital Artifact)</li>
+                            <li>+ The Strategic Vector Roadmap</li>
+                            <li>+ Access to Human+ Community</li>
+                        </ul>
+                    </div>
+
+                    <div class="w-full h-px bg-white/10"></div>
+
+                    <div class="text-center">
+                         <!-- Price Placeholder -->
+                        <p class="text-4xl font-serif text-gold mb-2">$497</p>
+                        <p class="font-mono text-[10px] text-ash uppercase tracking-widest">One-time investment</p>
+                    </div>
+
+                    <a href="#" class="w-full btn-glow relative px-8 py-4 bg-gold text-void font-mono font-bold tracking-[0.2em] uppercase hover:bg-white transition-colors duration-300">
+                        Secure Your Spot
+                    </a>
+                    
+                    <p class="text-[10px] text-ash/60">
+                        By initiating, you agree to the rigor of the protocol. <br> This is not for tourists.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 border-t border-white/5 bg-void text-center">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-6">
+            <div class="w-8 h-8 border border-gold/20 rounded-full flex items-center justify-center opacity-50">
+                <span class="font-serif text-gold text-xs">H+</span>
+            </div>
+            <div class="text-[10px] font-mono text-ash/40 tracking-widest uppercase space-y-2">
+                <p>&copy; 2025 Human Plus Inc. All Rights Reserved.</p>
+                <p>origin.thehuman.plus // TERMINAL_END</p>
+            </div>
+        </div>
     </footer>
 
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+    </script>
 </body>
 </html>
-
