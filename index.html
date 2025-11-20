@@ -24,9 +24,10 @@
                     colors: {
                         void: '#050505',
                         marble: '#121212',
-                        gold: '#D4AF37',
-                        'gold-light': '#F4D06F',
-                        'gold-dim': '#8A7120',
+                        // Updated Rose Gold Palette
+                        gold: '#B88A6E', 
+                        'gold-light': '#D4C0AD',
+                        'gold-dim': '#7a6420',
                         ash: '#888888'
                     },
                     fontFamily: {
@@ -35,8 +36,9 @@
                         mono: ['Space Mono', 'monospace'],
                     },
                     backgroundImage: {
-                        'marble-texture': "url('https://www.transparenttextures.com/patterns/black-felt.png')", // Subtle noise
-                        'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #F4D06F 50%, #8A7120 100%)',
+                        'marble-texture': "url('https://www.transparenttextures.com/patterns/black-felt.png')", 
+                        // Updated Gradient
+                        'gold-gradient': 'linear-gradient(135deg, #B88A6E 0%, #D4C0AD 50%, #8A6E56 100%)',
                     },
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -73,9 +75,10 @@
             z-index: 50;
         }
 
-        /* Gold Text Gradient */
+        /* Rose Gold Text Gradient */
         .text-gradient-gold {
-            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            /* Updated stops for Rose Gold/Bronze look */
+            background: linear-gradient(to right, #B88A6E, #D4C0AD, #8A5E45, #D4C0AD, #B88A6E);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -92,21 +95,22 @@
         /* Thin Circuitry Lines */
         .circuit-line {
             position: absolute;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            /* Updated to use new gold variable logic via RGBA or similar hex */
+            background: linear-gradient(90deg, transparent, rgba(184, 138, 110, 0.3), transparent);
             height: 1px;
             width: 100%;
         }
         
         .circuit-line-vertical {
             position: absolute;
-            background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            background: linear-gradient(180deg, transparent, rgba(184, 138, 110, 0.3), transparent);
             width: 1px;
             height: 100%;
         }
 
         /* Selection Color */
         ::selection {
-            background: #D4AF37;
+            background: #B88A6E;
             color: #000;
         }
 
@@ -123,12 +127,12 @@
         
         /* Custom Button Glow */
         .btn-glow {
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 10px rgba(184, 138, 110, 0.1);
             transition: all 0.3s ease;
         }
         .btn-glow:hover {
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-            border-color: #F4D06F;
+            box-shadow: 0 0 25px rgba(184, 138, 110, 0.4);
+            border-color: #D4C0AD; /* Rose Gold Light */
         }
 
         /* H+ Logo Animation */
